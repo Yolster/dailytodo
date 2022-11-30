@@ -4,10 +4,10 @@ const session = require("express-session");
 const crypto = require('crypto-js');
 const mysql = require('mysql');
 const app = express();
-const port = process.env.PORT || 80;
+const port = 3100;
 
 var connection = mysql.createConnection({
-  host     : "remotemysql.com",
+  host     : "https://remotemysql.com/",
   user     : "v3LNnDWOYN",
   password : "A3yjdppUuf",
   database : "v3LNnDWOYN"
@@ -43,7 +43,7 @@ app.use(session({
   
 
 app.get('/', (req,res) => {
-    if(req.session.userid){
+    if(req.session.username){
         return res.redirect('/dashboard')
     }
     res.render("index")
@@ -64,12 +64,12 @@ app.post('/login', async(req,res) => {
         return res.redirect('/?err=2')
     }
 
-    req.session.userid = user[0].id;
+    req.session.username = req.body.username;
     return res.redirect('/dashboard')
 })
 
 app.get('/register', (req,res) => {
-    if(req.session.userid){
+    if(req.session.username){
         return res.redirect('/dashboard')
     }
     res.render("register")
@@ -102,12 +102,12 @@ app.post('/register', async(req,res) => {
         function (err, result) {if (err) reject(err);resolve(result);});});
 
 
-    req.session.userid = user[0].id;  
+    req.session.username = req.body.username;  
     return res.redirect('/dashboard?success?id=1')
 })
 
 app.get("/dashboard", async(req,res) => {
-    if(!req.session.userid){
+    if(!req.session.username){
         return res.redirect('/')
     }
 
@@ -115,11 +115,11 @@ app.get("/dashboard", async(req,res) => {
     var date = `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`;
 
     const no = await new Promise((resolve, reject) => {connection.query(
-        `SELECT * FROM todos WHERE userID=? AND finished="no" AND date=?`,[req.session.userid,date],
+        `SELECT * FROM todos WHERE username=? AND finished="no" AND date=?`,[req.session.username,date],
         function (err, result) {if (err) reject(err);resolve(result);});});
 
         const yes = await new Promise((resolve, reject) => {connection.query(
-            `SELECT * FROM todos WHERE userID=? AND finished="yes" AND date=?`,[req.session.userid,date],
+            `SELECT * FROM todos WHERE username=? AND finished="yes" AND date=?`,[req.session.username,date],
             function (err, result) {if (err) reject(err);resolve(result);});});
 
     res.render('dashboard', {
@@ -134,8 +134,12 @@ app.post('/finished', async(req,res) => {
         return res.redirect('/dashboard')
     }
 
+    const user = await new Promise((resolve, reject) => {connection.query(
+        `SELECT * FROM users WHERE username=?`,[req.session.username],
+        function (err, result) {if (err) reject(err);resolve(result);});});
+
     await new Promise((resolve, reject) => {connection.query(
-        `UPDATE todos SET finished="yes" WHERE userID=? AND id=?`,[req.session.userid,req.body.id],
+        `UPDATE todos SET finished="yes" WHERE userID=? AND id=?`,[user[0].id,req.body.id],
         function (err, result) {if (err) reject(err);resolve(result);});});
 
     return res.redirect('/dashboard')
@@ -146,8 +150,14 @@ app.post('/notfinished', async(req,res) => {
         return res.redirect('/dashboard')
     }
 
+
+    const user = await new Promise((resolve, reject) => {connection.query(
+        `SELECT * FROM users WHERE username=?`,[req.session.username],
+        function (err, result) {if (err) reject(err);resolve(result);});});
+
+
     await new Promise((resolve, reject) => {connection.query(
-        `UPDATE todos SET finished="no" WHERE userID=? AND id=?`,[req.session.userid,req.body.id],
+        `UPDATE todos SET finished="no" WHERE userID=? AND id=?`,[user[0].id,req.body.id],
         function (err, result) {if (err) reject(err);resolve(result);});});
 
     return res.redirect('/dashboard')
