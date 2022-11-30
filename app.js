@@ -7,7 +7,7 @@ const app = express();
 const port = 3100;
 
 var connection = mysql.createConnection({
-  host     : "https://remotemysql.com/",
+  host     : "remotemysql.com",
   user     : "v3LNnDWOYN",
   password : "A3yjdppUuf",
   database : "v3LNnDWOYN"
