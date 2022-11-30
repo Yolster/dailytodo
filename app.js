@@ -4,7 +4,7 @@ const session = require("express-session");
 const crypto = require('crypto-js');
 const mysql = require('mysql');
 const app = express();
-const port = 3100;
+const port = process.env.PORT || 80;
 
 var connection = mysql.createConnection({
   host     : "remotemysql.com",
