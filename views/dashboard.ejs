@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.css">
+    <title>Dashboard - Daily To Do</title>
+</head>
+<body style="background-image: url('https://wallpaperaccess.com/full/1959300.jpg'); background-size: cover;">
+    <nav class="float-end p-2">
+        <a href="/whatsnew"><button class="btn btn-transparent text-light text-decoration-underline">What's New</button></a>
+    </nav>
+
+    <section style="padding:9%; padding-right: 30%; padding-left: 30%;">
+        <div class="container">
+            <div class="shadow-lg p-5 rounded bg-light">
+                <h1 align="center">Daily To Do</h1><br>
+                <% for(var i = 0; i < no.length; i++) { %>
+                <form action="/finished" method="post">
+                    <div class="form-check">
+                        <input type="hidden" name="id" value="<%= no[i].id %>">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" onChange="this.form.submit()">
+                        <label class="form-check-label" for="flexCheckChecked">
+                        <%= no[i].todo %>
+                        </label>
+                      </div>
+                    </form>
+                    <% } %> 
+                    <% for(var i = 0; i < yes.length; i++) { %>
+                        <form action="/notfinished" method="post">
+                            <div class="form-check">
+                                <input type="hidden" name="id" value="<%= yes[i].id %>">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked onChange="this.form.submit()">
+                                <label class="form-check-label" for="flexCheckChecked">
+                                <%= yes[i].todo %>
+                                </label>
+                              </div>
+                            </form>
+                            <% } %> 
+                <center><br>
+                    <div class="p-3"">
+                    <form action="/add" method="POST">
+                        <div class="input-group mb-3">
+                        <input type="text" name="add" class="form-control" placeholder="Add To Do">
+                        <button class="btn btn-secondary" type="submit" id="button-addon2">Add</button>
+                    </div>
+                    </form>
+                    </div>
+                <a href="/terms"><button class="btn btn-transparent text-dark text-decoration-underline">Terms Of Use</button></a>
+                </center>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

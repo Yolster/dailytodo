@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.css">
+    <title>Register - Daily To Do</title>
+</head>
+<body style="background-image: url('https://b-static.besthdwallpaper.com/genshin-impact-ganyu-keqing-wallpaper-2560x1600-91509_7.jpg'); background-size: cover;">
+    <nav class="float-end p-2">
+        <a href="/whatsnew"><button class="btn btn-transparent text-light text-decoration-underline">What's New</button></a>
+    </nav>
+
+    <section style="padding:5%; padding-right: 30%; padding-left: 30%;">
+        <div class="container">
+            <div class="shadow-lg p-5 rounded bg-light">
+                <h1 align="center">REGISTER</h1><br>
+                <form action="/register" method="post">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" class="form-control" minlength="5" placeholder="Username">
+                    <br>
+                    <label for="email">E-Mail:</label>
+                    <input type="email" id="email" name="email" class="form-control" minlength="10" placeholder="E-Mail">
+                    <br>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="form-control" minlength="6" placeholder="Password">
+                    <br>
+                    <center>
+                    <button type="submit" class="btn btn-dark col-md-10">JOIN US</button><br><br>
+                    </center>
+                </form>
+                <center>
+                <a href="/"><button class="btn btn-transparent text-dark text-decoration-underline">Login</button></a>
+                <a href="/terms"><button class="btn btn-transparent text-dark text-decoration-underline">Terms Of Use</button></a>
+            </center>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

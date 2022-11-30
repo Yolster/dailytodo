@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.css">
+    <title>Login - Daily To Do</title>
+</head>
+<body style="background-image: url('https://images.hdqwalls.com/download/anime-girl-on-train-track-with-car-8k-di-3840x2160.jpg'); background-size: cover;">
+    <nav class="float-end p-2">
+        <a href="/whatsnew"><button class="btn btn-transparent text-light text-decoration-underline">What's New</button></a>
+    </nav>
+
+    <section style="padding:9%; padding-right: 30%; padding-left: 30%;">
+        <div class="container">
+            <div class="shadow-lg p-5 rounded bg-light">
+                <h1 align="center">LOGIN</h1><br>
+                <form action="/login" method="post">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" minlength="5">
+                    <br>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" minlength="6">
+                    <br>
+                    <center>
+                    <button type="submit" class="btn btn-primary col-md-10">LOGIN</button><br><br>
+                </center>
+                </form>
+                <center>
+                <a href="/register"><button class="btn btn-transparent text-dark text-decoration-underline">Register</button></a>
+                <a href="/terms"><button class="btn btn-transparent text-dark text-decoration-underline">Terms Of Use</button></a>
+                </center>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
