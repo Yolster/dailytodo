@@ -111,15 +111,19 @@ app.get("/dashboard", async(req,res) => {
         return res.redirect('/')
     }
 
+    const user = await new Promise((resolve, reject) => {connection.query(
+        `SELECT * FROM users WHERE username=?`,[req.session.username],
+        function (err, result) {if (err) reject(err);resolve(result);});});
+
     var d = new Date();
     var date = `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`;
 
     const no = await new Promise((resolve, reject) => {connection.query(
-        `SELECT * FROM todos WHERE username=? AND finished="no" AND date=?`,[req.session.username,date],
+        `SELECT * FROM todos WHERE userID=? AND finished="no" AND date=?`,[user[0].id,date],
         function (err, result) {if (err) reject(err);resolve(result);});});
 
         const yes = await new Promise((resolve, reject) => {connection.query(
-            `SELECT * FROM todos WHERE username=? AND finished="yes" AND date=?`,[req.session.username,date],
+            `SELECT * FROM todos WHERE userID=? AND finished="yes" AND date=?`,[user[0].id,date],
             function (err, result) {if (err) reject(err);resolve(result);});});
 
     res.render('dashboard', {
