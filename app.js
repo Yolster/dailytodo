@@ -130,7 +130,7 @@ app.get("/dashboard", async(req,res) => {
 })
 
 app.post('/finished', async(req,res) => {
-    if(!req.session.userid){
+    if(!req.session.username){
         return res.redirect('/dashboard')
     }
 
@@ -146,7 +146,7 @@ app.post('/finished', async(req,res) => {
 })
 
 app.post('/notfinished', async(req,res) => {
-    if(!req.session.userid){
+    if(!req.session.username){
         return res.redirect('/dashboard')
     }
 
@@ -175,8 +175,13 @@ app.post('/add', async(req,res) => {
     var d = new Date();
     var date = `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`;   
 
+    const user = await new Promise((resolve, reject) => {connection.query(
+        `SELECT * FROM users WHERE username=?`,[req.session.username],
+        function (err, result) {if (err) reject(err);resolve(result);});});
+
+
     await new Promise((resolve, reject) => {connection.query(
-        `INSERT INTO todos(userID,todo,finished,date) VALUE(?,?,"no",?)`,[req.session.userid,req.body.add,date],
+        `INSERT INTO todos(userID,todo,finished,date) VALUE(?,?,"no",?)`,[user[0].id,req.body.add,date],
         function (err, result) {if (err) reject(err);resolve(result);});});
 
     return res.redirect('/dashboard')
