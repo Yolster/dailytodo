@@ -178,6 +178,15 @@ app.get('/terms', async(req,res) => {
     res.render('terms')
 })
 
+app.get('/logout', async(req,res) => {
+    if(!req.session.userid) {
+        return res.redirect('/')
+    }
+
+    req.session.destroy()
+    return res.redirect('/')
+})
+
 app.listen(port, () => {
     console.log(`App listening on port ${port}`)
   })
